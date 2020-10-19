@@ -31,5 +31,5 @@ steps:
     azureSubscription: 'Aquila360 Pay-As-You-Go(c48ffc21-56cc-460a-a378-c20ac89caf50)'
     appType: 'webApp'
     WebAppName: 'yamlpipeline'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)'
   displayName: 'deploy to app service'
