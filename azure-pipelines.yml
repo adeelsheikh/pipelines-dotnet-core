@@ -1,0 +1,30 @@
+trigger:
+- master
+- dev
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: dotnet restore
+  displayName: 'dotnet restore'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'sandoukzakatapi'
+    publishLocation: 'Container'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Aquila360 Pay-As-You-Go(c48ffc21-56cc-460a-a378-c20ac89caf50)'
+    appType: 'webApp'
+    WebAppName: 'yamlpipeline'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
